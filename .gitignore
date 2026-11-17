@@ -6,3 +6,7 @@ _site/
 !.env.example
 .DS_Store
 Thumbs.db
+target/
+data/
+*.log
+release/

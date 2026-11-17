@@ -28,11 +28,18 @@ jobs:
         run: |
           node --check app.js
           node --check history.js
+          node --check rooms-model.js
+          node --check rooms.js
+
+      - name: Check room management
+        run: |
+          npm install --prefix target/room-check --no-audit --no-fund jsdom@26.1.0
+          node --test tests/rooms.test.cjs
 
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp index.html styles.css app.js history.js .nojekyll _site/
+          cp index.html styles.css app.js history.js rooms-model.js rooms.js .nojekyll _site/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
