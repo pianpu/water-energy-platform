@@ -30,6 +30,7 @@ jobs:
           node --check history.js
           node --check rooms-model.js
           node --check rooms.js
+          find '业务平台/原型' -maxdepth 1 -name '*.js' -print0 | xargs -0 -n 1 node --check
 
       - name: Check room management
         run: |
@@ -38,8 +39,9 @@ jobs:
 
       - name: Prepare static site
         run: |
-          mkdir -p _site
+          mkdir -p _site/business
           cp index.html styles.css app.js history.js rooms-model.js rooms.js .nojekyll _site/
+          cp 业务平台/原型/*.html 业务平台/原型/*.css 业务平台/原型/*.js _site/business/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
