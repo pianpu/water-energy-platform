@@ -1,6 +1,6 @@
 'use strict';
 (function(root){
- const key='meter-business-prototype-rooms-template-v2';
+ const key='meter-business-prototype-rooms-two-devices-v3';
  function cleanRoom(room){const {waterInstall,electricInstall,lockInstall,completion,...kept}=room;return kept}
  function seed(){return{version:2,nextId:RoomTemplate.rooms.length+1,rooms:RoomTemplate.rooms.map(r=>({...cleanRoom(r),remark:'',area:'',tenant:'',phone:'',occupancy:'unknown',electricId:'',waterId:'',bindings:[],createdAt:'2026-11-19T00:00:00Z',updatedAt:'2026-11-19T00:00:00Z'})),deviceSnapshots:[]}}
  function load(storage){const saved=storage.getItem(key);if(!saved)return seed();const data=JSON.parse(saved);if(data.version!==2||!Array.isArray(data.rooms)||!Number.isInteger(data.nextId))throw Error('房间本地数据格式不兼容');data.rooms=data.rooms.map(cleanRoom);return data}
