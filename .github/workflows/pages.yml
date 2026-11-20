@@ -37,6 +37,10 @@ jobs:
           npm install --prefix target/room-check --no-audit --no-fund jsdom@26.1.0
           node --test tests/rooms.test.cjs
 
+      - name: Check business administrator permissions
+        run: |
+          NODE_PATH="$GITHUB_WORKSPACE/target/room-check/node_modules" node "业务平台/原型/tools/check-admin-permissions.cjs"
+
       - name: Prepare static site
         run: |
           mkdir -p _site/business

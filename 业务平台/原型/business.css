@@ -12,3 +12,5 @@ body{font-size:16px}.sidebar{padding:25px 16px 0}.brand{font-size:19px;letter-sp
 @media(max-width:650px){.summary-grid.water-summary{grid-template-columns:1fr}}
 
 .app-secret-value{display:block;max-width:260px;white-space:normal;overflow-wrap:anywhere;line-height:1.6;user-select:all}
+
+.nav-item[hidden],button[hidden]{display:none!important}.permission-group{border:1px solid #e7edf4;border-radius:7px;padding:15px;margin:12px 0}.permission-group>b{font-size:14px}.admin-permissions-cell{white-space:normal;max-width:420px}.device-row-actions{flex-wrap:wrap;gap:8px;min-width:170px;max-width:240px}.topbar-right #current-user-name{white-space:nowrap}

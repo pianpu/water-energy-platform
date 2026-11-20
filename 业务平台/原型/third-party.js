@@ -32,10 +32,10 @@ function submitThirdPartyTask(appId,deviceId,action,idempotencyKey){
 }
 function thirdPartyTaskResult(appId,taskId){
  const app=data.apps.find(a=>a.id===appId),task=data.tasks.find(t=>t.id===taskId&&t.appId===appId),d=devices.find(d=>d.id===task?.deviceId);
- if(!app?.enabled||!task||!d||!app.scopes.includes(task.originScope))throw Error('任务不存在或当前应用无权查看');
+ if(!app?.enabled||!task||!app.scopes.includes(task.originScope))throw Error('任务不存在或当前应用无权查看');
  return {taskId:task.id,deviceCode:task.deviceId,operation:taskOperationName(task),status:task.status,createdAt:task.createdAt,successAt:task.successAt,resultReading:task.resultReading||null,resultState:task.resultState||null,error:task.status==='success'?null:task.note};
 }
-function appCallForm(appId){
+function appCallForm(appId){if(!requireSuperAdmin())return;
  const app=data.apps.find(a=>a.id===appId);if(!app)return;
  modal('模拟第三方调用',`<form id="app-call-form"><div class="form-grid"><label class="field full">应用<input readonly value="${esc(app.name)} / ${esc(app.key)}"></label><label class="field">执行操作<select id="app-call-action" name="action">${Object.entries(appOperations).map(([k,v])=>`<option value="${k}">${v.label}${app.scopes.includes(v.scope)?'':' · 未授权'}</option>`).join('')}</select></label><label class="field">设备编码<select id="app-call-device" name="deviceId"></select></label><label class="field full">幂等键<input name="idempotencyKey" required maxlength="128" value="demo-${Date.now().toString(36)}-${randomHex(3)}"></label></div><div class="form-note">数据范围为全部水电表，模拟应用权限、任务受理与执行结果；同一幂等键重复提交返回同一任务。所有操作只修改本地演示数据，不发送实际TCP指令。</div><div id="app-call-error" class="form-error" role="alert"></div></form>`,btn('取消','data-close')+btn('模拟提交','form="app-call-form" type="submit"',true));
  const choices=()=>{const op=appOperations[$('#app-call-action').value];$('#app-call-device').innerHTML=devices.filter(d=>d.type===op.type).map(d=>`<option value="${esc(d.id)}">${esc(d.id)} · ${d.type==='water'?'水表':'电表'}</option>`).join('')};choices();$('#app-call-action').onchange=choices;
